@@ -17,12 +17,19 @@ export class AppComponent implements OnInit{
   cesiumViewer: Cesium.Viewer;
 
   ngOnInit() {
-    this.cesiumViewer = new Cesium.Viewer(this.cesiumEl.nativeElement);
+    this.cesiumViewer = new Cesium.Viewer(this.cesiumEl.nativeElement, {
+      imageryProvider: new Cesium.ArcGisMapServerImageryProvider({
+        url:
+          "https://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer",
+      }),
+      baseLayerPicker: false,
+      infoBox: false,
+    });
 
     fetch(`${this.API_URL_PREFIX}/user`, {
       method: 'get'
     }).then(r => r.json()).then(r => {
-      debugger;
+      // debugger;
     });
   }
 }

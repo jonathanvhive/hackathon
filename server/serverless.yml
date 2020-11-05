@@ -52,6 +52,7 @@ functions:
           method: GET
           path: /api/user
           cors: true
+          
   updateUser:
     handler: user.update
     events:
