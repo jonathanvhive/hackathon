@@ -26,6 +26,25 @@ export class AppComponent implements OnInit{
       infoBox: false,
     });
 
+    const viewer = this.cesiumViewer;
+    const screenSpaceEventHandler = new Cesium.ScreenSpaceEventHandler(this.cesiumViewer.scene.canvas);
+    screenSpaceEventHandler.setInputAction((clickEvent) => {
+      const cartesian = viewer.camera.pickEllipsoid(
+        clickEvent.position,
+        viewer.scene.globe.ellipsoid
+      );
+      if (cartesian) {
+        const cartographic = Cesium.Cartographic.fromCartesian(cartesian);
+        const long = Cesium.Math.toDegrees(
+          cartographic.longitude
+        );
+        const lat = Cesium.Math.toDegrees(
+          cartographic.latitude
+        );
+        console.log(lat, long);
+      }
+    }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+
     fetch(`${this.API_URL_PREFIX}/user`, {
       method: 'get'
     }).then(r => r.json()).then(r => {
